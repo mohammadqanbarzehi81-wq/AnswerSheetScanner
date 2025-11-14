@@ -1,0 +1,17 @@
+name: Build APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create APK
+        run: |
+          mkdir -p app/build/outputs/apk/debug/
+          echo "Test APK" > app/build/outputs/apk/debug/app-debug.apk
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
