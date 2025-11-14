@@ -1,11 +1,28 @@
 name: Build APK
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Person to greet'
+        required: true
+        default: 'World'
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "APK would be built here"
-      - uses: actions/upload-artifact@v4
+      - name: Say Hello
+        run: echo "Hello ${{ inputs.name }}"
+        
+      - name: Create Test File
+        run: |
+          mkdir -p outputs/
+          echo "This is a test APK file" > outputs/test.apk
+          ls -la outputs/
+          
+      - name: Upload Test APK
+        uses: actions/upload-artifact@v4
         with:
-          name: test-apk
-          path: README.md
+          name: test-apk-file
+          path: outputs/test.apk
+          retention-days: 1
